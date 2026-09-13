@@ -135,10 +135,10 @@ src/arbiter/
 
 Arbiter is one layer in the Pact/Baton trust enforcement stack:
 
-- [Constrain](https://github.com/jmcentire/constrain) -- Elicit constraints
-- [Pact](https://github.com/jmcentire/pact) -- Contract-first build
+- [Constrain](https://github.com/wandercom/constrain) -- Elicit constraints
+- [Pact](https://github.com/wandercom/pact) -- Contract-first build
 - **Arbiter** -- Trust enforcement (this project)
-- [Baton](https://github.com/jmcentire/baton) -- Circuit orchestration
+- [Baton](https://github.com/wandercom/baton) -- Circuit orchestration
 
 ## License
 

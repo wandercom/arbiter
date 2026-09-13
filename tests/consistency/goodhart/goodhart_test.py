@@ -11,7 +11,7 @@ from datetime import datetime, timezone, timedelta
 from unittest.mock import patch, MagicMock
 import time
 
-from src.consistency import (
+from arbiter.consistency import (
     analyze_span,
     analyze_batch,
     persist,

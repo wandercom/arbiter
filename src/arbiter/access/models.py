@@ -7,7 +7,7 @@ on DataTier and FindingSeverity via integer comparison.
 
 from __future__ import annotations
 
-from enum import IntEnum
+from enum import IntEnum, StrEnum
 from typing import NewType
 
 from pydantic import BaseModel, ConfigDict, Field
@@ -51,51 +51,12 @@ class DataTier(IntEnum):
     RESTRICTED = 3
 
 
-class FindingCode(str):
-    """Well-known finding codes emitted by the access auditor.
-
-    Stable string identifiers used for gating decisions and ledger records.
-    """
+class FindingCode(StrEnum):
+    """Stable string identifiers used for access gating and ledger records."""
 
     C005 = "C005"
     FA_A_015 = "FA_A_015"
     INCOMPLETE_SCHEMA = "INCOMPLETE_SCHEMA"
-
-    def __new__(cls, value: str) -> FindingCode:
-        obj = str.__new__(cls, value)
-        return obj
-
-
-# Re-create FindingCode as a proper enum-like with class attributes
-class FindingCode:  # type: ignore[no-redef]
-    """Well-known finding codes emitted by the access auditor."""
-
-    C005: str = "C005"
-    FA_A_015: str = "FA_A_015"
-    INCOMPLETE_SCHEMA: str = "INCOMPLETE_SCHEMA"
-
-    _valid = {"C005", "FA_A_015", "INCOMPLETE_SCHEMA"}
-
-    def __init__(self, value: str) -> None:
-        if value not in self._valid:
-            raise ValueError(f"Invalid FindingCode: {value!r}. Valid: {self._valid}")
-        self._value = value
-
-    def __str__(self) -> str:
-        return self._value
-
-    def __repr__(self) -> str:
-        return f"FindingCode({self._value!r})"
-
-    def __eq__(self, other: object) -> bool:
-        if isinstance(other, FindingCode):
-            return self._value == other._value
-        if isinstance(other, str):
-            return self._value == other
-        return NotImplemented
-
-    def __hash__(self) -> int:
-        return hash(self._value)
 
 
 class FindingSeverity(IntEnum):
@@ -226,7 +187,7 @@ class GateConfig(BaseModel):
 
     model_config = ConfigDict(frozen=True, extra="forbid")
 
-    block_on_codes: list[str]
+    block_on_codes: list[FindingCode]
     assume_worst_on_incomplete: bool = True
 
 

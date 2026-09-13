@@ -17,7 +17,7 @@ from unittest.mock import MagicMock, PropertyMock, call, patch, ANY
 import pytest
 
 # Import the component under test
-from conflicts import (
+from arbiter.conflicts import (
     ResolutionStatus,
     ResolutionStrategy,
     ConflictErrorCode,

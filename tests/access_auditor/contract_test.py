@@ -9,7 +9,7 @@ from unittest.mock import MagicMock, patch, PropertyMock
 from datetime import datetime, timezone
 import re
 
-from access_auditor import (
+from arbiter.access import (
     DataTier,
     FindingCode,
     FindingSeverity,
@@ -119,7 +119,12 @@ def make_observed_output(
         node_id=NodeId(node_id),
         adapter_slot_id=AdapterSlotId(adapter_slot_id),
         observed_tiers=observed_tiers,
-        observed_fields=observed_fields,
+        observed_fields=[
+            field if isinstance(field, ClassifiedField) else ClassifiedField(
+                path=field.path, tier=observed_tiers[min(index, len(observed_tiers) - 1)],
+            )
+            for index, field in enumerate(observed_fields)
+        ],
         observed_at=observed_at,
     )
 

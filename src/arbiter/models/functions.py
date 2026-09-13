@@ -7,7 +7,7 @@ import fnmatch
 import json
 import re
 from datetime import datetime, timezone
-from typing import Union
+from typing import TYPE_CHECKING, Union
 
 from pydantic import ValidationError
 
@@ -16,6 +16,9 @@ from .graph import AccessGraph, AccessGraphNode
 from .signals import ClassificationRule
 from .trust import LedgerCheckpoint, LedgerLine, TrustLedgerEntry
 from .types import NodeId, SequenceNumber, Sha256Hex, TrustScore
+
+if TYPE_CHECKING:
+    from .api import ErrorResponse
 
 __all__ = [
     "create_trust_ledger_entry",
@@ -135,7 +138,7 @@ def serialize_ledger_line(entry: Union[TrustLedgerEntry, LedgerCheckpoint]) -> s
         raise TypeError(
             f"Expected TrustLedgerEntry or LedgerCheckpoint, got {type(entry).__name__}"
         )
-    return entry.model_dump_json()
+    return json.dumps(entry.model_dump(mode="json"), sort_keys=True, separators=(",", ":"))
 
 
 def create_error_response(
