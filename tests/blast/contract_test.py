@@ -9,7 +9,7 @@ from datetime import datetime, timedelta, timezone
 from unittest.mock import MagicMock, patch, PropertyMock
 from typing import List, Optional, Dict
 
-from blast import (
+from arbiter.blast import (
     DataTier,
     ActionCategory,
     NodeMetadata,

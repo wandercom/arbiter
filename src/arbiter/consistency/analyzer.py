@@ -199,6 +199,11 @@ def analyze_span(
         unexplained_fields=unexplained,
         overclaimed_fields=overclaimed,
         analyzed_at=now,
+        details=(
+            f"Unexplained fields: {', '.join(sorted(unexplained)) or 'none'}; "
+            f"overclaimed fields: {', '.join(sorted(overclaimed)) or 'none'}"
+            if outcome == ConsistencyOutcome.INCONSISTENT else None
+        ),
     )
 
 

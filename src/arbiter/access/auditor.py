@@ -119,43 +119,28 @@ def audit_slot(
     declared_tiers = set(declared_access.declared_read_tiers)
     undeclared_tiers = structural_tiers - declared_tiers
 
-    if undeclared_tiers:
-        # Build fields_by_undeclared_tier mapping
-        fields_by_tier: dict[str, list[str]] = {}
-        for tier in undeclared_tiers:
-            tier_fields = [
-                cf.path
-                for cf in profile.classified_fields
-                if cf.tier == tier
-            ]
-            fields_by_tier[tier.name] = sorted(tier_fields)
-
-        evidence = AccessFindingEvidence(
-            structural_tiers=sorted(structural_tiers),
-            declared_tiers=sorted(declared_tiers),
-            undeclared_tiers=sorted(undeclared_tiers),
-            fields_by_undeclared_tier=fields_by_tier,
-            endpoint=profile.endpoint,
-        )
-
-        undeclared_names = ", ".join(t.name for t in sorted(undeclared_tiers))
-        finding = AccessFinding(
+    for tier in sorted(undeclared_tiers):
+        tier_fields = sorted(cf.path for cf in profile.classified_fields if cf.tier == tier)
+        findings.append(AccessFinding(
             code="C005",
             severity=FindingSeverity.WARNING,
             node_id=profile.node_id,
             adapter_slot_id=profile.adapter_slot_id,
             message=(
                 f"DECLARATION_GAP: node '{profile.node_id}' has structural access to "
-                f"tiers [{undeclared_names}] not declared in access graph at "
-                f"endpoint '{profile.endpoint}'"
+                f"tier {tier.name} not declared in access graph at endpoint '{profile.endpoint}'"
             ),
-            evidence=evidence,
+            evidence=AccessFindingEvidence(
+                structural_tiers=sorted(structural_tiers),
+                declared_tiers=sorted(declared_tiers),
+                undeclared_tiers=[tier],
+                fields_by_undeclared_tier={tier.name: tier_fields},
+                endpoint=profile.endpoint,
+            ),
             timestamp=now,
-        )
-        findings.append(finding)
-
-        if "C005" in gate_config.block_on_codes:
-            blocking_codes.append("C005")
+        ))
+    if undeclared_tiers and "C005" in gate_config.block_on_codes:
+        blocking_codes.append("C005")
 
     # Add INCOMPLETE_SCHEMA findings from profile warnings
     for warning in profile.warnings:

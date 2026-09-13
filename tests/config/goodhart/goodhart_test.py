@@ -11,7 +11,7 @@ from pathlib import Path
 import pytest
 import yaml
 
-from src.config import (
+from arbiter.config import (
     load_config,
     get_config,
     reset_config,

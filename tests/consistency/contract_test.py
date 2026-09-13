@@ -11,7 +11,7 @@ from unittest.mock import patch, MagicMock, PropertyMock
 from freezegun import freeze_time
 
 # Import the component under test
-from consistency import (
+from arbiter.consistency import (
     analyze_span,
     analyze_batch,
     persist,
@@ -524,7 +524,7 @@ class TestPersistErrors:
         finding = make_finding()
 
         # Mock the underlying storage to simulate IO failure
-        with patch("consistency.open", side_effect=IOError("disk full")):
+        with patch("builtins.open", side_effect=IOError("disk full")):
             with pytest.raises(Exception):  # Could be IOError or wrapped ConsistencyAnalysisError
                 persist(finding)
 

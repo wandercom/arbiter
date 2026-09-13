@@ -14,7 +14,7 @@ from pathlib import Path
 from unittest.mock import patch
 
 # Import the component under test
-from config import (
+from arbiter.config import (
     load_config,
     get_config,
     reset_config,

@@ -13,7 +13,7 @@ from unittest.mock import MagicMock, patch, call
 from datetime import datetime, timezone
 from dateutil.parser import isoparse
 
-from src.conflicts import *
+from arbiter.conflicts import *
 
 
 # ─── Helpers ───────────────────────────────────────────────────────────────────

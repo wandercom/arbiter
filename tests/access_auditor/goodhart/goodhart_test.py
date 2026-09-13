@@ -7,7 +7,7 @@ looking for hardcoded returns, boundary errors, and invariant violations.
 import pytest
 from datetime import datetime, timezone
 from unittest.mock import MagicMock, patch, call
-from src.access_auditor import *
+from arbiter.access import *
 
 
 # ---------------------------------------------------------------------------

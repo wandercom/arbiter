@@ -10,7 +10,7 @@ import pytest
 from unittest.mock import MagicMock
 
 # Import everything from the models module
-from models import (
+from arbiter.models import (
     TrustTier,
     DataTier,
     BlastTier,

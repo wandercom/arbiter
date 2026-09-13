@@ -8,7 +8,7 @@ import json
 import pytest
 from pydantic import ValidationError
 
-from src.models import (
+from arbiter.models import (
     TrustTier,
     DataTier,
     BlastTier,
@@ -609,7 +609,7 @@ def test_goodhart_canary_record_frozen_and_forbid():
     from datetime import datetime, timezone
     ts = datetime.now(timezone.utc).isoformat()
     cr = CanaryRecord(
-        ts=ts, canary_id='c1', fingerprint='fp',
+        ts=ts, canary_id='c1', fingerprint='canary-12345678-1234-4abc-8abc-123456789abc',
         data_tier=DataTier.PII, target_node='node1',
         triggered=False, triggered_at='', triggered_by_node=''
     )
@@ -618,7 +618,7 @@ def test_goodhart_canary_record_frozen_and_forbid():
 
     with pytest.raises((ValidationError, Exception)):
         CanaryRecord(
-            ts=ts, canary_id='c1', fingerprint='fp',
+            ts=ts, canary_id='c1', fingerprint='canary-12345678-1234-4abc-8abc-123456789abc',
             data_tier=DataTier.PII, target_node='node1',
             triggered=False, triggered_at='', triggered_by_node='',
             extra_field='nope'
@@ -821,7 +821,7 @@ def test_goodhart_build_graph_invalid_node_id_key():
             trust_tier=TrustTier.LOW, metadata={}
         ),
         'invalid node': AccessGraphNode(
-            id='invalid node', data_access=[], authority_domains=[], edges=[],
+            id='valid-other', data_access=[], authority_domains=[], edges=[],
             trust_tier=TrustTier.LOW, metadata={}
         ),
     }

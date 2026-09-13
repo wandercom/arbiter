@@ -13,7 +13,7 @@ arbiter canary inject              # seed canary corpus
 arbiter canary results <run_id>    # taint escape report
 arbiter report <run_id>            # full feedback report
 arbiter serve                      # HTTP API (port 7700)
-python3 -m pytest tests/ -v       # run tests (1,335)
+python3 -m pytest --import-mode=importlib tests/ -v  # full artifact sweep; see tests/README.md
 ```
 
 ## Architecture
@@ -100,9 +100,9 @@ src/arbiter/
 - Append-only trust ledger with SHA256 integrity checkpoints
 - Fire-and-forget for Stigmergy (2s timeout, daemon thread)
 - All file I/O via pathlib, UTC timestamps everywhere
-- Tests: 1,335 total (contract + Goodhart), 20 test files
+- Tests: 855 current-package cases verified; unported generated suites remain. See tests/README.md for exact commands and limits.
 - 30 functional assertions (FA-A-001 through FA-A-030)
 
 ## Kindex
 
-Arbiter captures discoveries, decisions, and trust model rationale in [Kindex](~/Code/kindex). Search before adding. Link related concepts.
+Arbiter captures discoveries, decisions, and trust model rationale in [Kindex](~/WanderRepos/repos/kindex). Search before adding. Link related concepts.
