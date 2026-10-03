@@ -105,4 +105,4 @@ src/arbiter/
 
 ## Kindex
 
-Arbiter captures discoveries, decisions, and trust model rationale in [Kindex](~/WanderRepos/repos/kindex). Search before adding. Link related concepts.
+Arbiter captures discoveries, decisions, and trust model rationale in [Kindex](https://github.com/wandercom/kindex). Search before adding. Link related concepts.
